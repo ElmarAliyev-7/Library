@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Company extends Model
+class Company extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $guarded = ['id'];
 
@@ -18,9 +20,18 @@ class Company extends Model
         'password',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+    ];
+
     public function book()
     {
-        return $this->hasOne(Book::class);
+        return $this->hasMany(Book::class, 'company_id');
     }
 
 }
