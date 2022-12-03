@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('about');
             $table->integer('count');
             $table->date('publishing_at');
-            $table->integer('company_id');
+            $table->foreignId('company_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

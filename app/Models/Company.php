@@ -14,6 +14,8 @@ class Company extends Model
     protected $fillable = [
         'name',
         'about',
+        'email',
+        'password',
     ];
 
     public function book()
