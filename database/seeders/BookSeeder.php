@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\BookAuthor;
+use App\Models\Company;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,9 +18,15 @@ class BookSeeder extends Seeder
      */
     public function run()
     {
-        Book::factory()
-            ->count(10)->create()->each(function (Book $book) {
-                $book->book_authors()->attach(Author::query()->inRandomOrder()->take(5)->get()->pluck('id')->toArray());
-            });
+        Company::factory()
+            ->has(
+                Book::factory()
+                    ->count(3)
+                    ->state(function (array $attributes, Company $company) {
+                        return ['company_id' => $company->id];
+                    })
+                ->hasAttached(Author::factory()->count(5),[], 'authors')
+            )
+            ->create();
     }
 }
