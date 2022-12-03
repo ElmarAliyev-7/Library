@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Company>
@@ -19,6 +20,8 @@ class CompanyFactory extends Factory
         return [
             'name'  => fake()->firstName,
             'about' => fake()->text,
+            'email' => fake()->unique()->email,
+            'password' => Hash::make('123'),
         ];
     }
 }
